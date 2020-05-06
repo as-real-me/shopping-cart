@@ -25,11 +25,11 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="minusItem" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="itemQuantity" type="text" class="form-control text-center" value="1">
+                           <button id="plusItem" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
+                        <h5>$<span id="priceItem1" >1219</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -43,12 +43,12 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="minusItem2" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="itemQuantity2" type="text" class="form-control text-center" value="1">
+                           <button id="plusItem2" class="btn btn-default"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$59</h5>
+                        <h5>$<span id="priceItem2">59</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -64,9 +64,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$ <span id="subTotalPrice">1,278</span></h5>
+                        <h5>$ <span id="vat">0</span> </h5>
+                        <h5>$ <span id="totalPrice">1,278</span></h5>
                      </div>
                   </div>
                </div>
@@ -77,6 +77,98 @@
          </div>
       </div>
    </section>
+
+
+
+   <script>
+
+      // unite price
+      const unitPriceItem1 = parseFloat(document.getElementById("priceItem1").innerText);
+      const unitPriceItem2 = parseFloat(document.getElementById("priceItem2").innerText); 
+
+      // plus item button Event hamdler
+      // for item 1
+      const plusItem = document.getElementById("plusItem");
+      plusItem.addEventListener("click", function(){
+         plusItemFunc("itemQuantity");
+         updatePrice(unitPriceItem1, "priceItem1", "itemQuantity");
+      })
+      // for item 2
+      const plusItem2 = document.getElementById("plusItem2");
+      plusItem2.addEventListener("click", function(){
+         plusItemFunc("itemQuantity2")
+         updatePrice(unitPriceItem2, "priceItem2", "itemQuantity2");
+      })
+
+
+
+
+      // minus item button Event hamdler
+      // for item 1
+      const minusItem = document.getElementById("minusItem");
+      minusItem.addEventListener("click", function(){
+         minusItemFunc("itemQuantity");
+         updatePrice(unitPriceItem1, "priceItem1", "itemQuantity");
+
+      })
+
+      // for item 2
+      const minusItem2 = document.getElementById("minusItem2");
+      minusItem2.addEventListener("click", function(){
+         minusItemFunc("itemQuantity2");
+         updatePrice(unitPriceItem2, "priceItem2", "itemQuantity2");
+      })
+
+
+
+
+// -------------------- Fuctions ---------------------
+
+      // item price update fuction
+
+      function updatePrice(unitPrice, itemPriceId, itemQuantityId){
+         // item price update
+         const itemQuantity = document.getElementById(itemQuantityId).value;
+         var itemQuantityNum = parseFloat(itemQuantity); 
+         const updatePrice = unitPrice * itemQuantityNum;
+         document.getElementById(itemPriceId).innerText = updatePrice;
+
+         // subtotal price update
+         const updateSubTotal = parseFloat(document.getElementById("priceItem1").innerText) + parseFloat(document.getElementById("priceItem2").innerText);
+         document.getElementById("subTotalPrice").innerText = updateSubTotal;
+
+         // vat amount
+         // Let overall vat is 5%;
+         const vat = parseFloat(((5/100) * updateSubTotal).toFixed(2));
+         document.getElementById("vat").innerText = vat;
+
+         // total price update
+         const totalPrice = updateSubTotal + vat;
+         document.getElementById("totalPrice").innerText = totalPrice;
+
+      }
+
+
+      // plus item function
+
+      function plusItemFunc(id){
+         const itemQuantity = document.getElementById(id).value;
+         var itemQuantityNum = parseFloat(itemQuantity);
+         itemQuantityNum++;
+         document.getElementById(id).value = itemQuantityNum;
+      }
+
+
+      // minus item fuction
+
+      function minusItemFunc(id){
+         const itemQuantity = document.getElementById(id).value;
+         var itemQuantityNum = parseFloat(itemQuantity);
+         itemQuantityNum--;
+         document.getElementById(id).value = itemQuantityNum;
+      }
+      
+   </script>
 </body>
 
 </html>
